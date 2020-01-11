@@ -109,6 +109,7 @@ class HTTPAdapter(BaseAdapter):
     """
     __attrs__ = ['max_retries', 'config', '_pool_connections', '_pool_maxsize',
                  '_pool_block']
+    Response = Response
 
     def __init__(self, pool_connections=DEFAULT_POOLSIZE,
                  pool_maxsize=DEFAULT_POOLSIZE, max_retries=DEFAULT_RETRIES,
@@ -262,7 +263,7 @@ class HTTPAdapter(BaseAdapter):
         :param resp: The urllib3 response object.
         :rtype: requests.Response
         """
-        response = Response()
+        response = self.Response()
 
         # Fallback to None if there's no status_code, for whatever reason.
         response.status_code = getattr(resp, 'status', None)
