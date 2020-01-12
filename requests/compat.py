@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# @PydevCodeAnalysisIgnore
 
 """
 requests.compat
@@ -45,7 +46,6 @@ if is_py2:
     from StringIO import StringIO
     # Keep OrderedDict for backwards compatibility.
     from collections import Callable, Mapping, MutableMapping, OrderedDict
-
 
     builtin_str = str
     bytes = str

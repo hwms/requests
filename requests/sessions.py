@@ -36,6 +36,7 @@ from .status_codes import codes
 
 # formerly defined here, reexposed here for backward compatibility
 from .models import REDIRECT_STATI
+REDIRECT_STATI
 
 # Preferred clock, based on which one is more accurate on a given system.
 if sys.platform == 'win32':
@@ -268,7 +269,6 @@ class SessionRedirectMixin(object):
         new_auth = get_netrc_auth(url) if self.trust_env else None
         if new_auth is not None:
             prepared_request.prepare_auth(new_auth)
-
 
     def rebuild_proxies(self, prepared_request, proxies):
         """This method re-evaluates the proxy configuration by considering the

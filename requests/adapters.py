@@ -12,7 +12,6 @@ import os.path
 import socket
 
 from urllib3.poolmanager import PoolManager, proxy_from_url
-from urllib3.response import HTTPResponse
 from urllib3.util import parse_url
 from urllib3.util import Timeout as TimeoutSauce
 from urllib3.util.retry import Retry
@@ -43,6 +42,7 @@ from .auth import _basic_auth_str
 try:
     from urllib3.contrib.socks import SOCKSProxyManager
 except ImportError:
+
     def SOCKSProxyManager(*args, **kwargs):
         raise InvalidSchema("Missing dependencies for SOCKS support.")
 

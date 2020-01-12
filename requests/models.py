@@ -8,12 +8,12 @@ This module contains the primary objects that power Requests.
 """
 
 import datetime
-import sys
 
 # Import encoding now, to avoid implicit import later.
 # Implicit import within threads may cause LookupError when standard library is in a ZIP,
 # such as in Embedded Python. See https://github.com/psf/requests/issues/3578.
 import encodings.idna
+encodings.idna
 
 from urllib3.fields import RequestField
 from urllib3.filepost import encode_multipart_formdata
@@ -45,9 +45,9 @@ from .status_codes import codes
 #: The set of HTTP status codes that indicate an automatically
 #: processable redirect.
 REDIRECT_STATI = (
-    codes.moved,               # 301
-    codes.found,               # 302
-    codes.other,               # 303
+    codes.moved,  # 301
+    codes.found,  # 302
+    codes.other,  # 303
     codes.temporary_redirect,  # 307
     codes.permanent_redirect,  # 308
 )
@@ -58,6 +58,7 @@ ITER_CHUNK_SIZE = 512
 
 
 class RequestEncodingMixin(object):
+
     @property
     def path_url(self):
         """Build the path URL to use."""
@@ -172,6 +173,7 @@ class RequestEncodingMixin(object):
 
 
 class RequestHooksMixin(object):
+
     def register_hook(self, event, hook):
         """Properly register a hook."""
 
@@ -363,7 +365,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         if isinstance(url, bytes):
             url = url.decode('utf8')
         else:
-            url = unicode(url) if is_py2 else str(url)
+            url = str(url)
 
         # Remove leading whitespaces from url
         url = url.lstrip()

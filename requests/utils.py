@@ -25,6 +25,7 @@ from .__version__ import __version__
 from . import certs
 # to_native_string is unused here, but imported here for backwards compatibility
 from ._internal_utils import to_native_string
+to_native_string
 from .compat import parse_http_list as _parse_list_header
 from .compat import (
     quote, urlparse, bytes, str, unquote, getproxies,
@@ -40,7 +41,6 @@ NETRC_FILES = ('.netrc', '_netrc')
 DEFAULT_CA_BUNDLE_PATH = certs.where()
 
 DEFAULT_PORTS = {'http': 80, 'https': 443}
-
 
 if sys.platform == 'win32':
     # provide a proxy_bypass version on Windows without DNS lookups
@@ -77,9 +77,9 @@ if sys.platform == 'win32':
             if test == '<local>':
                 if '.' not in host:
                     return True
-            test = test.replace(".", r"\.")     # mask dots
-            test = test.replace("*", r".*")     # change glob sequence
-            test = test.replace("?", r".")      # change glob char
+            test = test.replace(".", r"\.")  # mask dots
+            test = test.replace("*", r".*")  # change glob sequence
+            test = test.replace("?", r".")  # change glob char
             if re.match(test, host, re.I):
                 return True
         return False
@@ -868,16 +868,16 @@ def guess_json_utf(data):
     # determine the encoding. Also detect a BOM, if present.
     sample = data[:4]
     if sample in (codecs.BOM_UTF32_LE, codecs.BOM_UTF32_BE):
-        return 'utf-32'     # BOM included
+        return 'utf-32'  # BOM included
     if sample[:3] == codecs.BOM_UTF8:
         return 'utf-8-sig'  # BOM included, MS style (discouraged)
     if sample[:2] in (codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE):
-        return 'utf-16'     # BOM included
+        return 'utf-16'  # BOM included
     nullcount = sample.count(_null)
     if nullcount == 0:
         return 'utf-8'
     if nullcount == 2:
-        if sample[::2] == _null2:   # 1st and 3rd are null
+        if sample[::2] == _null2:  # 1st and 3rd are null
             return 'utf-16-be'
         if sample[1::2] == _null2:  # 2nd and 4th are null
             return 'utf-16-le'
@@ -956,7 +956,7 @@ def urldefragauth(url):
 
     :rtype: str
     """
-    scheme, netloc, path, params, query, fragment = urlparse(url)
+    scheme, netloc, path, params, query, _fragment = urlparse(url)
 
     # see func:`prepend_scheme_if_needed`
     if not netloc:
