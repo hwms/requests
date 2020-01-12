@@ -358,6 +358,7 @@ class Session(SessionRedirectMixin):
         'cert', 'prefetch', 'adapters', 'stream', 'trust_env',
         'max_redirects',
     ]
+    HTTPAdapter = HTTPAdapter
 
     def __init__(self):
 
@@ -411,8 +412,8 @@ class Session(SessionRedirectMixin):
 
         # Default connection adapters.
         self.adapters = OrderedDict()
-        self.mount('https://', HTTPAdapter())
-        self.mount('http://', HTTPAdapter())
+        self.mount('https://', self.HTTPAdapter())
+        self.mount('http://', self.HTTPAdapter())
 
     def __enter__(self):
         return self
