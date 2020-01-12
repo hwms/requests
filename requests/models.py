@@ -974,3 +974,15 @@ class Response(object):
         release_conn = getattr(self.raw, 'release_conn', None)
         if release_conn is not None:
             release_conn()
+
+    @property
+    def pq(self):
+        from pyquery import PyQuery
+        try:
+            return PyQuery(self.text, parser='html')
+        except ValueError:
+            return PyQuery(self.content, parser='html')
+
+    @property
+    def code(self):
+        return self.status_code
