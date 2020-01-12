@@ -84,6 +84,7 @@ def _check_cryptography(cryptography_version):
         warning = 'Old version of cryptography ({}) may cause slowdown.'.format(cryptography_version)
         warnings.warn(warning, RequestsDependencyWarning)
 
+
 # Check imported dependencies for compatibility.
 try:
     check_compatibility(urllib3.__version__, chardet.__version__)
@@ -118,9 +119,11 @@ from .api import request, get, head, post, patch, put, delete, options
 from .sessions import session, Session
 from .status_codes import codes
 from .exceptions import (
-    RequestException, Timeout, URLRequired,
-    TooManyRedirects, HTTPError, ConnectionError,
-    FileModeWarning, ConnectTimeout, ReadTimeout
+    BaseHTTPError, RequestException, HTTPError, ConnectionError, ProxyError, SSLError,
+    Timeout, ConnectTimeout, ReadTimeout, URLRequired, TooManyRedirects, MissingSchema,
+    InvalidSchema, InvalidURL, InvalidHeader, InvalidProxyURL, ChunkedEncodingError,
+    ContentDecodingError, StreamConsumedError, RetryError, UnrewindableBodyError,
+    RequestsWarning, FileModeWarning
 )
 
 # Set default logging handler to avoid "No handler found" warnings.
