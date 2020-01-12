@@ -464,7 +464,8 @@ class Session(SessionRedirectMixin):
     def request(self, method, url,
             params=None, data=None, headers=None, cookies=None, files=None,
             auth=None, timeout=None, allow_redirects=True, proxies=None,
-            hooks=None, stream=None, verify=None, cert=None, json=None):
+            hooks=None, stream=None, verify=None, cert=None, json=None,
+            proxy=None):
         """Constructs a :class:`Request <Request>`, prepares it and sends it.
         Returns :class:`Response <Response>` object.
 
@@ -515,6 +516,9 @@ class Session(SessionRedirectMixin):
             hooks=hooks,
         )
         prep = self.prepare_request(req)
+
+        if proxy:
+            proxies = {'all': proxy}
 
         proxies = proxies or {}
 
