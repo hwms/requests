@@ -842,6 +842,9 @@ class Response(object):
                 self._content = None
             else:
                 self._content = b''.join(self.iter_content(CONTENT_CHUNK_SIZE)) or b''
+                if self._content and self.headers.get('content-encoding', '').lower() == 'br':
+                    import brotli
+                    self._content = brotli.decompress(self._content)
 
         # if we had an error - throw the saved error
         if self._error is not None:
