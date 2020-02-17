@@ -43,7 +43,7 @@ if sys.platform == 'win32':
     try:  # Python 3.4+
         preferred_clock = time.perf_counter
     except AttributeError:  # Earlier than Python 3.
-        preferred_clock = time.clock
+        preferred_clock = time.clock  #@UndefinedVariable
 else:
     preferred_clock = time.time
 

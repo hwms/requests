@@ -37,7 +37,7 @@ class FlaskyStyle(Style):
         Name:                      "#000000",        # class: 'n'
         Name.Attribute:            "#c4a000",        # class: 'na' - to be revised
         Name.Builtin:              "#004461",        # class: 'nb'
-        Name.Builtin.Pseudo:       "#3465a4",        # class: 'bp'
+        Name.Builtin.Pseudo:       "#3465a4",        # class: 'bp'                  @UndefinedVariable
         Name.Class:                "#000000",        # class: 'nc' - to be revised
         Name.Constant:             "#000000",        # class: 'no' - to be revised
         Name.Decorator:            "#888",           # class: 'nd' - to be revised
@@ -50,9 +50,9 @@ class FlaskyStyle(Style):
         Name.Other:                "#000000",        # class: 'nx'
         Name.Tag:                  "bold #004461",   # class: 'nt' - like a keyword
         Name.Variable:             "#000000",        # class: 'nv' - to be revised
-        Name.Variable.Class:       "#000000",        # class: 'vc' - to be revised
-        Name.Variable.Global:      "#000000",        # class: 'vg' - to be revised
-        Name.Variable.Instance:    "#000000",        # class: 'vi' - to be revised
+        Name.Variable.Class:       "#000000",        # class: 'vc' - to be revised  @UndefinedVariable
+        Name.Variable.Global:      "#000000",        # class: 'vg' - to be revised  @UndefinedVariable
+        Name.Variable.Instance:    "#000000",        # class: 'vi' - to be revised  @UndefinedVariable
 
         Number:                    "#990000",        # class: 'm'
 

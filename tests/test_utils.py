@@ -50,7 +50,9 @@ class TestSuperLen:
     @pytest.mark.parametrize('error', [IOError, OSError])
     def test_super_len_handles_files_raising_weird_errors_in_tell(self, error):
         """If tell() raises errors, assume the cursor is at position zero."""
+
         class BoomFile(object):
+
             def __len__(self):
                 return 5
 
@@ -62,7 +64,9 @@ class TestSuperLen:
     @pytest.mark.parametrize('error', [IOError, OSError])
     def test_super_len_tell_ioerror(self, error):
         """Ensure that if tell gives an IOError super_len doesn't fail"""
+
         class NoLenBoomFile(object):
+
             def tell(self):
                 raise error()
 
@@ -87,12 +91,14 @@ class TestSuperLen:
         assert len(recwarn) == warnings_num
 
     def test_super_len_with__len__(self):
-        foo = [1,2,3,4]
+        foo = [1, 2, 3, 4]
         len_foo = super_len(foo)
         assert len_foo == 4
 
     def test_super_len_with_no__len__(self):
+
         class LenFile(object):
+
             def __init__(self):
                 self.len = 5
 
@@ -120,7 +126,7 @@ class TestToKeyValList:
     @pytest.mark.parametrize(
         'value, expected', (
             ([('key', 'val')], [('key', 'val')]),
-            ((('key', 'val'), ), [('key', 'val')]),
+            ((('key', 'val'),), [('key', 'val')]),
             ({'key': 'val'}, [('key', 'val')]),
             (None, None)
         ))
@@ -437,6 +443,8 @@ all_proxies = {'all': 'socks5://http.proxy',
 mixed_proxies = {'http': 'http://http.proxy',
                  'http://some.host': 'http://some.host.proxy',
                  'all': 'socks5://http.proxy'}
+
+
 @pytest.mark.parametrize(
     'url, expected, proxies', (
         ('hTTp://u:p@Some.Host/path', 'http://some.host.proxy', http_proxies),
@@ -725,11 +733,12 @@ def test_should_bypass_proxies_win_registry(url, expected, override,
     if override is None:
         override = '192.168.*;127.0.0.1;localhost.localdomain;172.16.1.1'
     if compat.is_py3:
-        import winreg
+        import winreg  #@UnusedImport
     else:
-        import _winreg as winreg
+        import _winreg as winreg  #@Reimport
 
     class RegHandle:
+
         def Close(self):
             pass
 

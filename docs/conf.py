@@ -26,7 +26,6 @@ sys.path.insert(0, os.path.abspath("_themes"))
 
 import requests
 
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -58,7 +57,7 @@ master_doc = "index"
 
 # General information about the project.
 project = u"Requests"
-copyright = u'MMXVIX. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project'
+copyright = u'MMXVIX. A <a href="http://kennethreitz.com/pages/open-projects.html">Kenneth Reitz</a> Project'  #@ReservedAssignment
 author = u"Kenneth Reitz"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -113,7 +112,6 @@ pygments_style = "flask_theme_support.FlaskyStyle"
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
-
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -270,7 +268,6 @@ latex_documents = [
 # If false, no module index is generated.
 # latex_domain_indices = True
 
-
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
@@ -279,7 +276,6 @@ man_pages = [(master_doc, "requests", u"Requests Documentation", [author], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
-
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -309,7 +305,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 # texinfo_no_detailmenu = False
-
 
 # -- Options for Epub output ----------------------------------------------
 

@@ -29,7 +29,7 @@ class HTTPError(RequestException):
     """An HTTP error occurred."""
 
 
-class ConnectionError(RequestException):
+class ConnectionError(RequestException):  #@ReservedAssignment
     """A Connection error occurred."""
 
 

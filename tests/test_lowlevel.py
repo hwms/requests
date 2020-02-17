@@ -237,14 +237,16 @@ def test_redirect_rfc1808_to_non_ascii_location():
 
         close_server.set()
 
+
 def test_fragment_not_sent_with_request():
     """Verify that the fragment portion of a URI isn't sent to the server."""
+
     def response_handler(sock):
         req = consume_socket_content(sock, timeout=0.5)
         sock.send(
             b'HTTP/1.1 200 OK\r\n'
-            b'Content-Length: '+bytes(len(req))+b'\r\n'
-            b'\r\n'+req
+            b'Content-Length: ' + bytes(len(req)) + b'\r\n'
+            b'\r\n' + req
         )
 
     close_server = threading.Event()
@@ -265,6 +267,7 @@ def test_fragment_not_sent_with_request():
             assert frag not in body
 
         close_server.set()
+
 
 def test_fragment_update_on_redirect():
     """Verify we only append previous fragment if one doesn't exist on new
@@ -296,7 +299,7 @@ def test_fragment_update_on_redirect():
     with server as (host, port):
         url = 'http://{}:{}/path/to/thing/#view=edit&token=hunter2'.format(host, port)
         r = requests.get(url)
-        raw_request = r.content
+        _raw_request = r.content
 
         assert r.status_code == 200
         assert len(r.history) == 2
@@ -316,10 +319,10 @@ def test_response_content_retains_error():
     See https://github.com/kennethreitz/requests/issues/4965
     """
 
-    data = "Some random stuff to read from remove server.\n"
+    _data = "Some random stuff to read from remove server.\n"
 
     def response_handler(sock):
-        req = consume_socket_content(sock, timeout=0.5)
+        _req = consume_socket_content(sock, timeout=0.5)
 
         # Send invalid chunked data (length mismatch)
         sock.send(

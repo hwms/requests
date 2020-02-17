@@ -2,6 +2,10 @@ import sys
 
 # This code exists for backwards compatibility reasons.
 # I don't like it either. Just look the other way. :)
+if False:
+    import urllib3
+    import idna
+    import chardet
 
 for package in ('urllib3', 'idna', 'chardet'):
     locals()[package] = __import__(package)

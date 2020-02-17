@@ -69,7 +69,7 @@ class TestRequests:
         requests.patch
         requests.post
         # Not really an entry point, but people rely on it.
-        from requests.packages.urllib3.poolmanager import PoolManager
+        from requests.packages.urllib3.poolmanager import PoolManager  #@UnusedImport @UnresolvedImport
 
     @pytest.mark.parametrize(
         'exception, url', (
@@ -300,11 +300,11 @@ class TestRequests:
 
     def test_fragment_maintained_on_redirect(self, httpbin):
         fragment = "#view=edit&token=hunter2"
-        r = requests.get(httpbin('redirect-to?url=get')+fragment)
+        r = requests.get(httpbin('redirect-to?url=get') + fragment)
 
         assert len(r.history) > 0
-        assert r.history[0].request.url == httpbin('redirect-to?url=get')+fragment
-        assert r.url == httpbin('get')+fragment
+        assert r.history[0].request.url == httpbin('redirect-to?url=get') + fragment
+        assert r.url == httpbin('get') + fragment
 
     def test_HTTP_200_OK_GET_WITH_PARAMS(self, httpbin):
         heads = {'User-agent': 'Mozilla/5.0'}
@@ -559,8 +559,10 @@ class TestRequests:
         old_auth = requests.sessions.get_netrc_auth
 
         try:
+
             def get_netrc_auth_mock(url):
                 return auth
+
             requests.sessions.get_netrc_auth = get_netrc_auth_mock
 
             # Should use netrc and work.
@@ -689,6 +691,7 @@ class TestRequests:
     def test_POSTBIN_SEEKED_OBJECT_WITH_NO_ITER(self, httpbin):
 
         class TestStream(object):
+
             def __init__(self, data):
                 self.data = data.encode()
                 self.length = len(self.data)
@@ -747,7 +750,9 @@ class TestRequests:
             requests.post(url, files=['bad file data'])
 
     def test_post_with_custom_mapping(self, httpbin):
+
         class CustomMapping(MutableMapping):
+
             def __init__(self, *args, **kwargs):
                 self.data = dict(*args, **kwargs)
 
@@ -772,8 +777,8 @@ class TestRequests:
         assert found_json == {'some': 'data'}
 
     def test_conflicting_post_params(self, httpbin):
-        url = httpbin('post')
-        with open('Pipfile') as f:
+        _url = httpbin('post')
+        with open('Pipfile') as _f:
             pytest.raises(ValueError, "requests.post(url, data='[{\"some\": \"data\"}]', files={'some': f})")
             pytest.raises(ValueError, "requests.post(url, data=u('[{\"some\": \"data\"}]'), files={'some': f})")
 
@@ -836,11 +841,11 @@ class TestRequests:
     def test_https_warnings(self, httpbin_secure, httpbin_ca_bundle):
         """warnings are emitted with requests.get"""
         if HAS_MODERN_SSL or HAS_PYOPENSSL:
-            warnings_expected = ('SubjectAltNameWarning', )
+            warnings_expected = ('SubjectAltNameWarning',)
         else:
             warnings_expected = ('SNIMissingWarning',
                                  'InsecurePlatformWarning',
-                                 'SubjectAltNameWarning', )
+                                 'SubjectAltNameWarning',)
 
         with pytest.warns(None) as warning_records:
             warnings.simplefilter('always')
@@ -942,6 +947,7 @@ class TestRequests:
         assert b"text/py-content-type" in r.request.body
 
     def test_hook_receives_request_arguments(self, httpbin):
+
         def hook(resp, **kwargs):
             assert resp is not None
             assert kwargs != {}
@@ -971,6 +977,7 @@ class TestRequests:
         assert prep.hooks['response'] == [hook1]
 
     def test_prepared_request_hook(self, httpbin):
+
         def hook(resp, **kwargs):
             resp.hook_working = True
             return resp
@@ -985,7 +992,9 @@ class TestRequests:
         assert hasattr(resp, 'hook_working')
 
     def test_prepared_from_session(self, httpbin):
+
         class DummyAuth(requests.auth.AuthBase):
+
             def __call__(self, r):
                 r.headers['Dummy-Auth-Test'] = 'dummy-auth-test-ok'
                 return r
@@ -1180,6 +1189,7 @@ class TestRequests:
             jar.get(key)
 
     def test_cookie_policy_copy(self):
+
         class MyCookiePolicy(cookielib.DefaultCookiePolicy):
             pass
 
@@ -1190,7 +1200,7 @@ class TestRequests:
     def test_time_elapsed_blank(self, httpbin):
         r = requests.get(httpbin('get'))
         td = r.elapsed
-        total_seconds = ((td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 10**6)
+        total_seconds = ((td.microseconds + (td.seconds + td.days * 24 * 3600) * 10 ** 6) / 10 ** 6)
         assert total_seconds > 0.0
 
     def test_empty_response_has_content_none(self):
@@ -1204,6 +1214,7 @@ class TestRequests:
 
         def read_mock(amt, decode_content=None):
             return read_(amt)
+
         setattr(io, 'read', read_mock)
         r.raw = io
         assert next(iter(r))
@@ -1496,15 +1507,15 @@ class TestRequests:
 
         # Test for int
         with pytest.raises(InvalidHeader) as excinfo:
-            r = requests.get(httpbin('get'), headers=headers_int)
+            _r = requests.get(httpbin('get'), headers=headers_int)
         assert 'foo' in str(excinfo.value)
         # Test for dict
         with pytest.raises(InvalidHeader) as excinfo:
-            r = requests.get(httpbin('get'), headers=headers_dict)
+            _r = requests.get(httpbin('get'), headers=headers_dict)
         assert 'bar' in str(excinfo.value)
         # Test for list
         with pytest.raises(InvalidHeader) as excinfo:
-            r = requests.get(httpbin('get'), headers=headers_list)
+            _r = requests.get(httpbin('get'), headers=headers_list)
         assert 'baz' in str(excinfo.value)
 
     def test_header_no_return_chars(self, httpbin):
@@ -1517,13 +1528,13 @@ class TestRequests:
 
         # Test for newline
         with pytest.raises(InvalidHeader):
-            r = requests.get(httpbin('get'), headers=headers_ret)
+            _r = requests.get(httpbin('get'), headers=headers_ret)
         # Test for line feed
         with pytest.raises(InvalidHeader):
-            r = requests.get(httpbin('get'), headers=headers_lf)
+            _r = requests.get(httpbin('get'), headers=headers_lf)
         # Test for carriage return
         with pytest.raises(InvalidHeader):
-            r = requests.get(httpbin('get'), headers=headers_cr)
+            _r = requests.get(httpbin('get'), headers=headers_cr)
 
     def test_header_no_leading_space(self, httpbin):
         """Ensure headers containing leading whitespace raise
@@ -1534,10 +1545,10 @@ class TestRequests:
 
         # Test for whitespace
         with pytest.raises(InvalidHeader):
-            r = requests.get(httpbin('get'), headers=headers_space)
+            _r = requests.get(httpbin('get'), headers=headers_space)
         # Test for tab
         with pytest.raises(InvalidHeader):
-            r = requests.get(httpbin('get'), headers=headers_tab)
+            _r = requests.get(httpbin('get'), headers=headers_tab)
 
     @pytest.mark.parametrize('files', ('foo', b'foo', bytearray(b'foo')))
     def test_can_send_objects_with_files(self, httpbin, files):
@@ -1675,7 +1686,9 @@ class TestRequests:
         assert prep.body.read() == b'data'
 
     def test_rewind_body_no_seek(self):
+
         class BadFileObj:
+
             def __init__(self, data):
                 self.data = data
 
@@ -1695,7 +1708,9 @@ class TestRequests:
         assert 'Unable to rewind request body' in str(e)
 
     def test_rewind_body_failed_seek(self):
+
         class BadFileObj:
+
             def __init__(self, data):
                 self.data = data
 
@@ -1718,7 +1733,9 @@ class TestRequests:
         assert 'error occurred when rewinding request body' in str(e)
 
     def test_rewind_body_failed_tell(self):
+
         class BadFileObj:
+
             def __init__(self, data):
                 self.data = data
 
@@ -1923,6 +1940,7 @@ class TestRequests:
                      ]
 
         class CustomRedirectSession(requests.Session):
+
             def get_redirect_target(self, resp):
                 # default behavior
                 if resp.is_redirect:
@@ -2049,7 +2067,7 @@ class TestCaseInsensitiveDict:
             'Accept': 'application/json',
             'user-Agent': 'requests',
         })
-        keyset = frozenset(lowerkey for lowerkey, v in cid.lower_items())
+        keyset = frozenset(lowerkey for lowerkey, _v in cid.lower_items())
         lowerkeyset = frozenset(['accept', 'user-agent'])
         assert keyset == lowerkeyset
 
@@ -2221,6 +2239,7 @@ SendCall = collections.namedtuple('SendCall', ('args', 'kwargs'))
 
 
 class RedirectSession(SessionRedirectMixin):
+
     def __init__(self, order_of_redirects):
         self.redirects = order_of_redirects
         self.calls = []
@@ -2378,6 +2397,7 @@ def test_urllib3_pool_connection_closed(httpbin):
 
 
 class TestPreparingURLs(object):
+
     @pytest.mark.parametrize(
         'url,expected',
         (
@@ -2421,12 +2441,12 @@ class TestPreparingURLs(object):
     def test_preparing_url(self, url, expected):
 
         def normalize_percent_encode(x):
-            # Helper function that normalizes equivalent 
+            # Helper function that normalizes equivalent
             # percent-encoded bytes before comparisons
             for c in re.findall(r'%[a-fA-F0-9]{2}', x):
                 x = x.replace(c, c.upper())
             return x
-        
+
         r = requests.Request('GET', url=url)
         p = r.prepare()
         assert normalize_percent_encode(p.url) == expected
@@ -2454,7 +2474,7 @@ class TestPreparingURLs(object):
     )
     def test_redirecting_to_bad_url(self, httpbin, url, exception):
         with pytest.raises(exception):
-            r = requests.get(httpbin('redirect-to'), params={'url': url})
+            _r = requests.get(httpbin('redirect-to'), params={'url': url})
 
     @pytest.mark.parametrize(
         'input, expected',
@@ -2481,7 +2501,7 @@ class TestPreparingURLs(object):
             )
         )
     )
-    def test_url_mutation(self, input, expected):
+    def test_url_mutation(self, input, expected):  #@ReservedAssignment
         """
         This test validates that we correctly exclude some URLs from
         preparation, and that we handle others. Specifically, it tests that
@@ -2517,7 +2537,7 @@ class TestPreparingURLs(object):
             ),
         )
     )
-    def test_parameters_for_nonstandard_schemes(self, input, params, expected):
+    def test_parameters_for_nonstandard_schemes(self, input, params, expected):  #@ReservedAssignment
         """
         Setting parameters for nonstandard schemes is allowed if those schemes
         begin with "http", and is forbidden otherwise.
